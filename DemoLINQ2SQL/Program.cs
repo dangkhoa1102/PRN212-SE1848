@@ -103,3 +103,22 @@ else
     db.SubmitChanges();
     Console.WriteLine($"Da xoa {dsdm9.Count} danh muc khong co san pham");
 }
+//cau 10: them moi danh muc
+var newCategory = new Category
+{
+    CategoryName = "Hang lau den tu moi noi nao do khong biet"
+};
+db.Categories.InsertOnSubmit(newCategory);
+db.SubmitChanges();
+Console.WriteLine($"Da them moi danh muc: {newCategory.CategoryName}");
+//cau 11: them moi nhieu danh muc
+List<Category> newCategories = new List<Category>
+{
+    new Category { CategoryName = "Man hinh" },
+    new Category { CategoryName = "CPU" },
+    new Category { CategoryName = "VGA" },
+    new Category { CategoryName = "RAM" }
+};
+db.Categories.InsertAllOnSubmit(newCategories);
+db.SubmitChanges();
+Console.WriteLine($"Da them {newCategories.Count} danh muc moi: {string.Join(", ", newCategories.Select(c => c.CategoryName))}");
