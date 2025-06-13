@@ -1,124 +1,102 @@
 ﻿using DemoLINQ2SQL;
 using System.Text;
-Console.OutputEncoding= Encoding.UTF8;
-string connecttionString = "server=localhost;database=MyStore;uid=sa;pwd=12345;TrustServerCertificate=true;";
-MyStoreDataContext db = new MyStoreDataContext(connecttionString);
-var dsdm = db.Categories.ToList();
-Console.WriteLine("========= Danh sach danh muc =========");
+
+Console.OutputEncoding=Encoding.UTF8;
+//khai báo chuỗi kết nối tới CSDL:
+string connectionString = @"server=THANHTRAN;database=MyStore;uid=sa;pwd=123456";
+MyStoreDataContext context=new MyStoreDataContext(connectionString);
+//Câu 1: Truy vấn toàn bộ danh mục
+var dsdm = context.Categories.ToList();
+Console.WriteLine("---Danh sách Danh mục---");
 foreach (var d in dsdm)
-{
-    Console.WriteLine($"ID: {d.CategoryID}, Ten: {d.CategoryName}");
-}
-//cau 2
+    Console.WriteLine(d.CategoryID+"\t"+d.CategoryName);
+//Câu 2: Lấy thông tin chi tiết danh mục khi biết mã
 int madm = 7;
-Category cate = db.Categories.FirstOrDefault(c => c.CategoryID == madm);
-if (cate == null)
+Category cate = context.Categories
+                       .FirstOrDefault(c => c.CategoryID == madm);
+if(cate == null)
 {
-    Console.WriteLine($"Khong tim thay danh muc co ID = {madm}");
+    Console.WriteLine("Không tìm thấy danh mục có mã ="+madm);
 }
 else
 {
-    Console.WriteLine($"Danh muc co ID = {madm} la: {cate.CategoryName}");
+    Console.WriteLine("Tìm thấy Danh mục có mã = "+madm);
+    Console.WriteLine(cate.CategoryID + "\t" + cate.CategoryName);
 }
-//cau 3 dung Query syntax de truy cap toan bo san pham
-var dssp = from p in db.Products
-            select p;
-Console.WriteLine("========= Danh sach san pham =========");
+//Câu 3: dùng Query Syntax để truy vấn toàn bộ sản phẩm
+var dssp = from p in context.Products
+           select p;
+Console.WriteLine("---Danh sách sản phẩm:---");
 foreach (var p in dssp)
 {
-    Console.WriteLine($"{p.ProductID}\t{p.ProductName}\t{p.UnitPrice}\t{p.Category.CategoryName}");
-}
-//Cau 4: dung Query syntax va Anonymous type de loc ra 
-// cac san pham nhung chi lay ma san pham va don gia
-var dssp4 = from p in db.Products
-            orderby p.UnitPrice descending
-            select new
-            {
-                p.ProductID,
-                p.UnitPrice
-            };
-Console.WriteLine("========= Danh sach san pham (ma san pham, don gia) =========");
-foreach (var p in dssp4)
+    Console.WriteLine(p.ProductID + "\t" + p.ProductName + "\t" + p.UnitPrice);
+}    
+//Câu 4: Dùng Query Syntax và Anonymous type để lọc ra
+//các sản phẩm nhưng chỉ lấy mã sản phẩm và đơn giá 
+//đồng thời sắp xếp giảm dần
+var dssp4= from p in context.Products
+           orderby p.UnitPrice descending
+           select new { p.ProductID, p.UnitPrice };
+Console.WriteLine("---Danh sách sản phẩm theo câu 4----:");
+foreach(var p in dssp4)
 {
-    Console.WriteLine($"{p.ProductID}\t{p.UnitPrice}");
-}
-//cau 5
-var dssp5 = db.Products
-            .OrderByDescending(p => p.UnitPrice)
-            .Select(p => new
-            {
-                p.ProductID,
-                p.UnitPrice
-            });
-Console.WriteLine("========= Danh sach san pham theo cau 5 =========");
+    Console.WriteLine(p.ProductID+"\t"+p.UnitPrice);
+}    
+//câu 5: sửa câu 4 theo extention method (Method syntax)
+var dssp5=context.Products
+                 .OrderByDescending(p => p.UnitPrice)
+                 .Select(p=>new {p.ProductID,p.UnitPrice});
+Console.WriteLine("---Danh sách sản phẩm theo câu 5----:");
 foreach (var p in dssp5)
 {
-    Console.WriteLine($"{p.ProductID}\t{p.UnitPrice}");
+    Console.WriteLine(p.ProductID + "\t" + p.UnitPrice);
 }
-//cau 6: loc ra top 3 san pham co gia tri lon nhat he thong
-var dssp6 = (from p in db.Products
-             orderby p.UnitPrice descending
-             select p).Take(3);
-Console.WriteLine("========= Top 3 san pham co don gia cao nhat =========");
-foreach (var p in dssp6)
+//câu 6: Lọc ra TOP 3 sản phẩm có giá lớn nhất hệ thống
+var dssptop3 = context.Products
+                    .OrderByDescending(p => p.UnitPrice)
+                    .Take(3);
+Console.WriteLine("--TOP 3 sản phẩm có giá lớn nhất ---");
+foreach(var p in dssptop3)
 {
-    Console.WriteLine($"{p.ProductID}\t{p.ProductName}\t{p.UnitPrice}\t{p.Category.CategoryName}");
+    Console.WriteLine(p.ProductID+"\t"+p.ProductName+"\t"+p.UnitPrice);
 }
-//cau 7: Sua ten danh muc khi biet ma
-var madm7 = 3;
-Category cate7 = db.Categories.FirstOrDefault(c => c.CategoryID == madm7);
-if (cate7 == null)
+
+//Câu 7: Sửa tên danh mục khi biết mã
+int madm_edit = 16;
+Category cate_edit= context.Categories
+                   .FirstOrDefault(c => c.CategoryID == madm_edit);
+if (cate_edit != null)
 {
-    Console.WriteLine($"Khong tim thay danh muc co ID = {madm7}");
+    cate_edit.CategoryName = "Hàng Trôi Nổi";
+    context.SubmitChanges();//xác nhận lưu thay đổi
 }
-else
+//Câu 8: Xóa danh mục khi biết mã
+int madm_xoa = 15;
+Category cate_remove = context.Categories
+                    .FirstOrDefault(c=>c.CategoryID==madm_xoa);
+if(cate_remove != null)
 {
-    cate7.CategoryName = "Danh muc moi";
-    db.SubmitChanges();
-    Console.WriteLine($"Da sua ten danh muc co ID = {madm7} thanh: {cate7.CategoryName}");
-}
-//cau 8: xoa danh muc khi biet ma
-var madm8 = 4;
-Category cate8 = db.Categories.FirstOrDefault(c => c.CategoryID == madm8);
-if (cate8 == null)
-{
-    Console.WriteLine($"Khong tim thay danh muc co ID = {madm8}");
-}
-else
-{
-    db.Categories.DeleteOnSubmit(cate8);
-    db.SubmitChanges();
-    Console.WriteLine($"Da xoa danh muc co ID = {madm8}");
-}
-//cau 9: xoa cac danh muc neu khong co san pham nao
-//Luu y: la xoa cung 1 luc nhieu danh muc, ma cac danh muc nay khong co san pham nao
-var dsdm9 = db.Categories.Where(c => !c.Products.Any()).ToList();
-if (dsdm9.Count == 0)
-{
-    Console.WriteLine("Khong co danh muc nao khong co san pham");
-}
-else
-{
-    db.Categories.DeleteAllOnSubmit(dsdm9);
-    db.SubmitChanges();
-    Console.WriteLine($"Da xoa {dsdm9.Count} danh muc khong co san pham");
-}
-//cau 10: them moi danh muc
-var newCategory = new Category
-{
-    CategoryName = "Hang lau den tu moi noi nao do khong biet"
-};
-db.Categories.InsertOnSubmit(newCategory);
-db.SubmitChanges();
-Console.WriteLine($"Da them moi danh muc: {newCategory.CategoryName}");
-//cau 11: them moi nhieu danh muc
-List<Category> newCategories = new List<Category>
-{
-    new Category { CategoryName = "Man hinh" },
-    new Category { CategoryName = "CPU" },
-    new Category { CategoryName = "VGA" },
-    new Category { CategoryName = "RAM" }
-};
-db.Categories.InsertAllOnSubmit(newCategories);
-db.SubmitChanges();
-Console.WriteLine($"Da them {newCategories.Count} danh muc moi: {string.Join(", ", newCategories.Select(c => c.CategoryName))}");
+    context.Categories.DeleteOnSubmit(cate_remove);
+    context.SubmitChanges();//xác thực thay đổi dữ liệu
+}    
+//Câu 9: Xóa các danh mục nếu không có bất kỳ sản phẩm nào
+//lưu ý: là xóa cùng 1 lúc nhiều danh mục, mà các danh mục này
+//không có chứa bất kỳ 1 sản phẩm nào
+var dsdm_empty_product=context.Categories
+                            .Where(c=>c.Products.Count() == 0)
+                            .ToList();
+context.Categories.DeleteAllOnSubmit(dsdm_empty_product);
+context.SubmitChanges();
+//Câu 10: Thêm mới 1 danh mục:
+Category c_new = new Category();
+c_new.CategoryName = "Hàng Lậu từ Trung Quốc";
+context.Categories.InsertOnSubmit(c_new);
+context.SubmitChanges();
+
+//câu 11: Thêm mới nhiều danh mục
+List<Category> list = new List<Category>();
+list.Add(new Category() { CategoryName = "Hàng Gia Dụng" });
+list.Add(new Category() { CategoryName = "Hàng Điện Tử" });
+list.Add(new Category() { CategoryName = "Hàng Phụ Kiện" });
+context.Categories.InsertAllOnSubmit(list);
+context.SubmitChanges();
