@@ -73,6 +73,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bai_Tap_Controll_Co_Ban_1",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButtonControl_TongHop", "ButtonControl_TongHop\ButtonControl_TongHop.csproj", "{9DFA7930-F2C6-424F-BEE5-F928318CBB0F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bai_Tap_Controller_Co_Ban_2", "Bai_Tap_Controller_Co_Ban_2", "{0D682E23-0BFD-4692-A076-3FA9FA88B0BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckBox_Su_Kien", "CheckBox_Su_Kien\CheckBox_Su_Kien.csproj", "{883461E7-47EF-40D1-8C4F-E93DDFDB34E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -203,6 +207,10 @@ Global
 		{9DFA7930-F2C6-424F-BEE5-F928318CBB0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DFA7930-F2C6-424F-BEE5-F928318CBB0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DFA7930-F2C6-424F-BEE5-F928318CBB0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{883461E7-47EF-40D1-8C4F-E93DDFDB34E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{883461E7-47EF-40D1-8C4F-E93DDFDB34E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{883461E7-47EF-40D1-8C4F-E93DDFDB34E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{883461E7-47EF-40D1-8C4F-E93DDFDB34E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -222,6 +230,8 @@ Global
 		{54942E48-2585-465B-A41A-DB4BBA8C022A} = {8FA28920-F534-4B6F-A311-7C5A7196624D}
 		{CE4E8726-B4E3-4FFC-8684-3ACB920421B0} = {8FA28920-F534-4B6F-A311-7C5A7196624D}
 		{9DFA7930-F2C6-424F-BEE5-F928318CBB0F} = {CE4E8726-B4E3-4FFC-8684-3ACB920421B0}
+		{0D682E23-0BFD-4692-A076-3FA9FA88B0BF} = {8FA28920-F534-4B6F-A311-7C5A7196624D}
+		{883461E7-47EF-40D1-8C4F-E93DDFDB34E6} = {0D682E23-0BFD-4692-A076-3FA9FA88B0BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59189441-05A1-4C0B-B49A-E3EA9E34A7D9}
