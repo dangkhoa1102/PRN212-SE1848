@@ -116,6 +116,12 @@ namespace WpfApp
         {
             try
             {
+                MessageBoxResult rs = MessageBox.Show("Bạn có chắc chắn muốn xóa sản phẩm này không?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (rs == MessageBoxResult.No)
+                {
+                    return; // User chose not to delete
+                }
+
                 if (lvProduct.SelectedItem == null)
                 {
                     MessageBox.Show("Vui lòng chọn sản phẩm để xóa", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
