@@ -11,7 +11,7 @@ namespace Services
     public class ProductService : IProductService
     {
         IProductRepository iProductRepository;
-        public ProductService() 
+        public ProductService()
         {
             iProductRepository = new ProductRepository();
         }
@@ -28,6 +28,22 @@ namespace Services
         public bool SaveProduct(Product product)
         {
             return iProductRepository.SaveProduct(product);
+        }
+        public bool UpdateProduct(Product product)
+        {
+            return iProductRepository.UpdateProduct(product);
+        }
+        public Product GetProdct(int id)
+        {
+            return iProductRepository.GetProdct(id);
+        }
+        public bool DeleteProduct(int id)
+        {
+            return iProductRepository.DeleteProduct(id);
+        }
+        public bool DeleteProduct(Product product)
+        {
+            return iProductRepository.DeleteProduct(product);
         }
     }
 }

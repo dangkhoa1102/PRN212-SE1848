@@ -14,5 +14,9 @@ namespace Repositories
         public void GenerateSampleDataset();
         public List<Product> GetProducts();
         public bool SaveProduct(Product product);
+        public bool UpdateProduct(Product product);
+        public Product GetProdct(int id);
+        public bool DeleteProduct(int id);
+        public bool DeleteProduct(Product product);
     }
 }

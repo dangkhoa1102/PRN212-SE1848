@@ -38,5 +38,39 @@ namespace DataAccessLayer
             }
             return true; // Product added successfully
         }
+        public bool UpdateProduct(Product product)
+        {
+            Product old = products.FirstOrDefault(p => p.Id == product.Id);
+            if (old != null)
+            {
+                old.Name = product.Name;
+                old.Quantity = product.Quantity;
+                old.Price = product.Price;
+                return true; // Product updated successfully
+            }
+            return false; // Product not found
+        }
+        public Product GetProdct(int id)
+        {
+            return products.FirstOrDefault(p => p.Id == id);
+        }
+        public bool DeleteProduct(int id)
+        {
+            Product product = products.FirstOrDefault(p => p.Id == id);
+            if (product != null)
+            {
+                products.Remove(product);
+                return true; // Product deleted successfully
+            }
+            return false; // Product not found
+        }
+        public bool DeleteProduct(Product product)
+        {
+            if(product == null)
+            {
+                return false; // Product is null
+            }
+            return DeleteProduct(product.Id); // Delegate to the overload that takes an ID
+        }
     }
 }

@@ -24,5 +24,21 @@ namespace Repositories
         {
             return productDAO.SaveProduct(product);
         }
+        public bool UpdateProduct(Product product)
+        {
+            return productDAO.UpdateProduct(product);
+        }
+        public Product GetProdct(int id)
+        {
+            return productDAO.GetProdct(id);
+        }
+        public bool DeleteProduct(int id)
+        {
+            return productDAO.DeleteProduct(id);
+        }
+        public bool DeleteProduct(Product product)
+        {
+            return !productDAO.DeleteProduct(product);
+        }
     }
 }
